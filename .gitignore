@@ -1,0 +1,5 @@
+*.jl~       # backup files from editors
+*.ipynb_checkpoints/
+*.csv       # if you don't want raw data pushed
+figures/    # if you want to ignore generated figures
+.vscode/    # VS Code settings
