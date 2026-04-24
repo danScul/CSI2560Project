@@ -19,15 +19,41 @@ y_pred = slope .* x .+ inter # new prediction
 println(first(df, 5))
 println(last(df, 5))  
 description = describe(df)
-scatter(df[!, "Voltage (V)"], df[!, "Weight (gm)"],
-    xlabel="Votlage (V)",
+mkpath("figures")
+
+p1 = scatter(x, y,
+    xlabel="Voltage (V)",
     ylabel="Weight (gm)",
     title="Loadcell Dataset",
     legend=false)
-    x_sorted = sort(df[!, "Voltage (V)"])
-    y_sorted = min_slope[1] .+ min_slope[2] .* x_sorted
-    plot!(x_sorted, y_sorted, color=:red, label="Fitted Line")
-savefig("C:\\Users\\Owner\\Documents\\CSI2560 Project\\figures\\scatter_plot.png")
+
+x_sorted = sort(x)
+y_sorted = inter .+ slope .* x_sorted
+
+plot!(p1, x_sorted, y_sorted, color=:red)
+
+savefig(p1, "figures/scatter_plot.png")
+
+residuals = y .- y_pred
+
+p2 = scatter(x, residuals,
+    xlabel="Voltage (V)",
+    ylabel="Residual",
+    title="Residual Plot",
+    legend=false)
+
+hline!(p2, [0], linestyle=:dash)
+
+savefig(p2, "figures/residual_plot.png")
+
+p3 = histogram(residuals,
+    bins=20,
+    xlabel="Residual",
+    ylabel="Frequency",
+    title="Error Distribution",
+    legend=false)
+
+savefig(p3, "figures/error_histogram.png")
 
 println("Intercept: ", min_slope[1])
 println("Slope: ", min_slope[2])
