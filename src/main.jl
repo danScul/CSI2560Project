@@ -55,5 +55,21 @@ p3 = histogram(residuals,
 
 savefig(p3, "figures/error_histogram.png")
 
-println("Intercept: ", min_slope[1])
-println("Slope: ", min_slope[2])
+println("Intercept: ", inter)
+println("Slope: ", slope)
+
+# --- RMSE function ---
+rmse(y_true, y_pred) = sqrt(mean((y_true .- y_pred).^2))
+
+# --- Model RMSE ---
+rmse_model = rmse(y, y_pred)
+
+# --- Baseline (mean prediction) --- mean of the outputs
+y_mean_pred = fill(y_mean, length(y))
+
+# --- Baseline RMSE ---
+rmse_baseline = rmse(y, y_mean_pred)
+
+# --- Print results ---
+println("RMSE (model): ", rmse_model)
+println("RMSE (baseline): ", rmse_baseline)
